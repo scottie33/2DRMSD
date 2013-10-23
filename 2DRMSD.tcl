@@ -9,12 +9,13 @@ mol load psf $inputpsf dcd $inputdcd
 set mol [molinfo top]
 set nf [molinfo $mol get numframes]
 set nf [expr $nf/$interval]
-if { $fromidx<0 || $toidx>=$nf } {
-	puts " from and to index out of range, should be in [0:$nf] "
-	puts " reindex to [0:$nf] "
+if { $fromidx<0 || $toidx>$nf } {
+	puts " from and to index out of range, should be in \[0:$nf\] "
+	puts " reindex to \[0:$nf\] "
 	set fromidx 0
 	set toidx $nf
 }
+puts " "
 puts " we will do analysis from [expr $fromidx*$interval] to [expr $toidx*$interval] with interval $interval"
 set lengthnf [expr $toidx-$fromidx]
 puts " this 2D-plot would be a ${lengthnf}x${lengthnf} matrix"
@@ -53,7 +54,7 @@ set temprangefn [open "temp.gpl" w]
 puts $temprangefn "xfrom=$fromidx"
 puts $temprangefn "xto=$toidx"
 puts $temprangefn "yfrom=$fromidx"
-puts $temprangefn "yto=$todix"
+puts $temprangefn "yto=$toidx"
 close $temprangefn
 
 quit
