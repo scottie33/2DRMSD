@@ -9,8 +9,8 @@ load 'temp.gpl'
 #set xrange [0.5:xtran-0.5]
 #set yrange [0.5:ytran-0.5]
 
-set xrange [0:xtran]
-set yrange [0:ytran]
+set xrange [xfrom:xto]
+set yrange [yfrom:yto]
 
 set xtics 10 font ",24"
 set ytics 10 font ",24"

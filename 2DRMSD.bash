@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -lt 7 ]; then
+if [ $# -lt 5 ]; then
 	echo " you should have VMD installed with path set well."
 	echo " "
 	echo " cmd psffile dcdfile alignsel selstr interval [fromidx toidx]"

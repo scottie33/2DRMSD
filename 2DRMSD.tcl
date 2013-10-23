@@ -50,8 +50,10 @@ for {set fa $fromidx} {$fa<$toidx} {incr fa} {
 close $outDataFile
 
 set temprangefn [open "temp.gpl" w]
-puts $temprangefn "xtran=$nf"
-puts $temprangefn "ytran=$nf"
+puts $temprangefn "xfrom=$fromidx"
+puts $temprangefn "xto=$toidx"
+puts $temprangefn "yfrom=$fromidx"
+puts $temprangefn "yto=$todix"
 close $temprangefn
 
 quit
