@@ -21,22 +21,25 @@ set outDataFile [open $filename w]
 
 #for {set r $firstRes} {$r <= $lastRes} {incr r} {
 for {set fa 0} {$fa<$nf} {incr fa} {
-	set tfa [expr $fa*$interval]
-	$sela frame $tfa
-	$aligna frame $tfa
-	for {set fb 0} {$fb<$nf} {incr fb} {
-		set tfb [expr $fb*$interval]
-		$selb frame $tfb
-		$alignb frame $tfb
-		#display update
-		#set val 
-		#set resid $r
-		set trans_mat [measure fit $alignb $aligna]
-		$selb move $trans_mat
-		puts $outDataFile "$fa $fb [measure rmsd $sela $selb]"
-		#puts $outDataFile "$fa $fb [measure rmsd $sela $selb weight mass]"
-	}
-	puts $outDataFile " "
+	if { $fa>=$fromidx && $fa<$toidx } {
+		set tfa [expr $fa*$interval]
+		$sela frame $tfa
+		$aligna frame $tfa
+		for {set fb 0} {$fb<$nf} {incr fb} {
+			if { $fb>=$fromidx && $fb<$toidx } {
+				set tfb [expr $fb*$interval]
+				$selb frame $tfb
+				$alignb frame $tfb
+				#display update
+				#set val 
+				#set resid $r
+				set trans_mat [measure fit $alignb $aligna]
+				$selb move $trans_mat
+				puts $outDataFile "$fa $fb [measure rmsd $sela $selb]"
+				#puts $outDataFile "$fa $fb [measure rmsd $sela $selb weight mass]"
+			}
+		}
+		puts $outDataFile " "
 }
 
 close $outDataFile
