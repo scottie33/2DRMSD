@@ -1,0 +1,26 @@
+reset 
+
+set term postscript eps color  solid enhanced  size 5.5,5 font ",28"
+set output 'rmsd2D.eps'
+set encoding iso_8859_1
+
+set pm3d map
+load 'temp.gpl'
+#set xrange [0.5:xtran-0.5]
+#set yrange [0.5:ytran-0.5]
+
+set xrange [0:xtran]
+set yrange [0:ytran]
+
+set xtics 10 font ",24"
+set ytics 10 font ",24"
+
+set mxtics 10
+set mytics 10
+
+set xlabel "Time (ns)" font ",32" #'{/Times-Italic Time (ns)}' font ",36"
+set ylabel "Time (ns)" font ",32" #'{/Times-Italic Time (ns)}' font ",36"
+
+set cbtics 1
+#set cbrange [0:6]
+splot 'rmsd2d.dat' u ($1+0.5):($2+0.5):3 notitle
