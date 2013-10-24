@@ -1,3 +1,6 @@
+* 2DRMSD
+*** Currently only the trajectories formatted in .dcd are supported.
+
 ===
 
 example 1 to usage:
@@ -9,9 +12,9 @@ example 1 to usage:
 
 ===
 
-example 2 to usage:
+example 2g to usage:
 
-	./2DRMSD.bash ../telk_ionized.psf all.dcd "nucleic and backbone noh" "(nucleic or protein) and noh" 10 23 80
+	./2DRMSD.bash yours.psf yours.dcd "nucleic and backbone noh" "(nucleic or protein) and noh" 10 23 80
 
 	use the 1st string in quotes to align the selected group of atoms referred to by the 2nd string in quotes, 
 	with interval equal to every 10 frames. 
