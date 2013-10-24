@@ -9,7 +9,7 @@ example 1 to usage:
 
 ===
 
-example 1 to usage:
+example 2 to usage:
 
 	./2DRMSD.bash ../telk_ionized.psf all.dcd "nucleic and backbone noh" "(nucleic or protein) and noh" 10 23 80
 
