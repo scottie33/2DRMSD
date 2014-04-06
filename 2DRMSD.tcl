@@ -8,18 +8,12 @@ source "tempinput.tcl"
 mol load psf $inputpsf dcd $inputdcd
 set mol [molinfo top]
 set nf [molinfo $mol get numframes]
-set nf [expr $nf/$interval]
-if { $fromidx<0 || $toidx>$nf } {
-	puts " from and to index out of range, should be in \[0:$nf\] "
-	puts " reindex to \[0:$nf\] "
-	set fromidx 0
-	set toidx $nf
-}
-puts " "
-puts " we will do analysis from [expr $fromidx*$interval] to [expr $toidx*$interval] with interval $interval"
-set lengthnf [expr $toidx-$fromidx]
-puts " this 2D-plot would be a ${lengthnf}x${lengthnf} matrix"
-
+set realnf [expr $nf-$startf]
+set nf [expr $realnf/$interval]
+set realnf [expr $realnf/$intnanosec]
+puts " this 2D-plot would be a ${nf}x${nf} matrix"
+set skipnf [expr 10.0*($startf-$skipped)/10.0/$intnanosec]
+puts " $skipnf frames have been skipped ... "
 set sela [atomselect top "$selstr"]
 set selb [atomselect top "$selstr"]
 
@@ -29,12 +23,12 @@ set alignb [atomselect top "$alignsel"]
 set outDataFile [open $filename w]
 
 #for {set r $firstRes} {$r <= $lastRes} {incr r} {
-for {set fa $fromidx} {$fa<$toidx} {incr fa} {
-	set tfa [expr $fa*$interval]
+for {set fa 0} {$fa<$nf} {incr fa} {
+	set tfa [expr $fa*$interval+$startf]
 	$sela frame $tfa
 	$aligna frame $tfa
-	for {set fb $fromidx} {$fb<$toidx} {incr fb} {
-		set tfb [expr $fb*$interval]
+	for {set fb 0} {$fb<$nf} {incr fb} {
+		set tfb [expr $fb*$interval+$startf]
 		$selb frame $tfb
 		$alignb frame $tfb
 		#display update
@@ -42,7 +36,7 @@ for {set fa $fromidx} {$fa<$toidx} {incr fa} {
 		#set resid $r
 		set trans_mat [measure fit $alignb $aligna]
 		$selb move $trans_mat
-		puts $outDataFile "$fa $fb [measure rmsd $sela $selb]"
+		puts $outDataFile "[expr 10.0*($tfa-$skipped)/10.0/$intnanosec] [expr 10.0*($tfb-$skipped)/10.0/$intnanosec] [measure rmsd $sela $selb]"
 		#puts $outDataFile "$fa $fb [measure rmsd $sela $selb weight mass]"
 	}
 	puts $outDataFile " "
@@ -51,10 +45,10 @@ for {set fa $fromidx} {$fa<$toidx} {incr fa} {
 close $outDataFile
 
 set temprangefn [open "temp.gpl" w]
-puts $temprangefn "xfrom=$fromidx"
-puts $temprangefn "xto=$toidx"
-puts $temprangefn "yfrom=$fromidx"
-puts $temprangefn "yto=$toidx"
+puts $temprangefn "xtrane=$skipnf"
+puts $temprangefn "ytrane=$skipnf"
+puts $temprangefn "xtran=[expr $skipnf+$realnf]"
+puts $temprangefn "ytran=[expr $skipnf+$realnf]"
 close $temprangefn
 
 quit

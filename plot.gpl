@@ -1,6 +1,6 @@
 reset 
 
-set term postscript eps color  solid enhanced  size 5.5,5 font ",28"
+set term postscript eps color  solid enhanced  size 6,6 font ",28"
 set output 'rmsd2D.eps'
 set encoding iso_8859_1
 
@@ -9,18 +9,37 @@ load 'temp.gpl'
 #set xrange [0.5:xtran-0.5]
 #set yrange [0.5:ytran-0.5]
 
-set xrange [xfrom:xto]
-set yrange [yfrom:yto]
+xsplot1=0.15
+xeplot1=0.85
+
+ysplot1=0.9
+yeplot1=0.25
+
+set lmargin at screen xsplot1
+set rmargin at screen xeplot1
+
+set tmargin at screen ysplot1
+set bmargin at screen yeplot1
+
+set xrange [xtrane:xtran]
+set yrange [ytrane:ytran]
 
 set xtics 10 font ",24"
 set ytics 10 font ",24"
-
+set xtics offset 0.0,0.45
+set ytics offset 0.25,0.0
 set mxtics 10
 set mytics 10
 
+set xtics format "%.1f"
+set ytics format "%.1f"
+
 set xlabel "Time (ns)" font ",32" #'{/Times-Italic Time (ns)}' font ",36"
 set ylabel "Time (ns)" font ",32" #'{/Times-Italic Time (ns)}' font ",36"
+set xlabel offset 0.0,0.45
 
-set cbtics 1
+set cbtics 1.0 font ",24"
+set cbtics format "%.1f"
 #set cbrange [0:6]
-splot 'rmsd2d.dat' u ($1+0.5):($2+0.5):3 notitle
+
+splot 'rmsd2d.dat' u ($1):($2):3 notitle
